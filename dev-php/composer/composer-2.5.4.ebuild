@@ -33,7 +33,8 @@ RDEPEND="dev-lang/php:*[curl]
 	>=dev-php/symfony-polyfill-php80-1.24
 	>=dev-php/symfony-polyfill-php81-1.24
 	>=dev-php/signal-handler-2
-	dev-php/fedora-autoloader"
+	dev-php/fedora-autoloader
+	dev-php/theseer-Autoload"
 
 # dependency to >=dev-php/symfony-polyfill-php73-1.24 dropped, because PHP 7.3 is not longer in portage
 
