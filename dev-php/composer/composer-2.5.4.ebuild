@@ -33,8 +33,7 @@ RDEPEND="dev-lang/php:*[curl]
 	>=dev-php/symfony-polyfill-php80-1.24
 	>=dev-php/symfony-polyfill-php81-1.24
 	>=dev-php/signal-handler-2
-	dev-php/fedora-autoloader
-	dev-php/theseer-Autoload"
+	dev-php/fedora-autoloader"
 
 # dependency to >=dev-php/symfony-polyfill-php73-1.24 dropped, because PHP 7.3 is not longer in portage
 
@@ -66,8 +65,6 @@ src_prepare() {
 	'/usr/share/php/Composer/Semver/autoload.php',
 	'/usr/share/php/Composer/XdebugHandler/autoload.php',
 	'/usr/share/php/Composer/Spdx/autoload.php',
-	'/usr/share/php/TheSeer/Autoload/autoload.php',
-	'/usr/share/php/TheSeer/DirectoryScanner/autoload.php',
 	'/usr/share/php/Psr/Log/autoload.php',
 	'/usr/share/php/Seld/PharUtils/autoload.php',
 	'/usr/share/php/Seld/JsonLint/autoload.php',
