@@ -2,6 +2,18 @@
 
 Unofficial PHP Overlay for Gentoo Linux
 
+## Install
+
+Install using Eselect Repository:
+
+    eselect repository enable php-overlay
+
+Install using Layman:
+
+    layman -a php-overlay
+
+## Composer
+
 To install Composer you may want to add the following lines to `/etc/portage/package.accept_keywords/composer`:
 
 ```
