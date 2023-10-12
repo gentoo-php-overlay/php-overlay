@@ -99,7 +99,4 @@ src_install() {
 	exeinto "/usr/share/${PN}/bin"
 	doexe "bin/${PN}"
 	dosym "../share/${PN}/bin/${PN}" "/usr/bin/${PN}"
-
-	dodoc CHANGELOG.md README.md doc/*.md
-	dodoc -r doc/articles doc/faqs
 }
