@@ -25,13 +25,6 @@ RDEPEND="
 
 S="${WORKDIR}"
 
-src_unpack() {
-	# Linkace is packed twice for some odd reason
-	unpack "${A}"
-	unpack "${WORKDIR}/linkace.zip"
-	rm "${WORKDIR}/linkace.zip"
-}
-
 src_prepare() {
 
 	default
