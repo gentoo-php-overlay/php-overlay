@@ -51,7 +51,6 @@ src_install() {
 
 	keepdir "${MY_HTDOCSDIR}"/db
 
-	webapp_serverowned -R "${MY_HTDOCSDIR}"/tmp
 	webapp_src_install
 
 }
