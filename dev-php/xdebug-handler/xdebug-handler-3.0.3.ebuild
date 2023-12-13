@@ -29,13 +29,14 @@ src_prepare() {
 		src \
 		|| die
 
+	VENDOR_DIR="${EPREFIX}/usr/share/php"
 	cat >> autoload.php <<EOF || die "failed to extend autoload.php"
 
 // Dependencies
 \Fedora\Autoloader\Dependencies::required([
-	'/usr/share/php/Fedora/Autoloader/autoload.php',
-	'/usr/share/php/Psr/Log/autoload.php',
-	'/usr/share/php/Composer/Pcre/autoload.php'
+	'${VENDOR_DIR}/Fedora/Autoloader/autoload.php',
+	'${VENDOR_DIR}/Psr/Log/autoload.php',
+	'${VENDOR_DIR}/Composer/Pcre/autoload.php'
 ]);
 EOF
 }
