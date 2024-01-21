@@ -4,7 +4,7 @@
 EAPI="8"
 
 PHP_EXT_NAME="spx"
-USE_PHP="php7-4 php8-0 php8-1 php8-2"
+USE_PHP="php5-4 php7-4 php8-0 php8-1 php8-2 php8-3"
 MY_P="${PN/pecl-/}-${PV/_rc/RC}"
 PHP_EXT_ECONF_ARGS=()
 PHP_EXT_PECL_FILENAME="${MY_P}.tgz"
