@@ -1,11 +1,11 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-DESCRIPTION="Symfony polyfill for intl's Normalizer class and related functions"
-HOMEPAGE="https://github.com/symfony/polyfill-intl-normalizer"
-SRC_URI="https://github.com/symfony/polyfill-intl-normalizer/archive/v${PV}.tar.gz
+DESCRIPTION="Symfony polyfill backporting some PHP 8.0+ features to lower PHP versions"
+HOMEPAGE="https://github.com/symfony/polyfill-php80"
+SRC_URI="https://github.com/symfony/polyfill-php80/archive/v${PV}.tar.gz
 	-> ${P}.tar.gz"
 
 LICENSE="MIT"
@@ -17,7 +17,7 @@ BDEPEND="dev-php/theseer-Autoload"
 RDEPEND="dev-lang/php:*
 	dev-php/fedora-autoloader"
 
-S="${WORKDIR}/polyfill-intl-normalizer-${PV}"
+S="${WORKDIR}/polyfill-php80-${PV}"
 
 src_prepare() {
 	default
@@ -32,9 +32,8 @@ src_prepare() {
 	echo "\Fedora\Autoloader\Dependencies::required([__DIR__ . '/bootstrap.php']);" >> autoload.php
 }
 
-# TODO: Check if README.md is installed twice
 src_install() {
-	insinto '/usr/share/php/Symfony/Component/PolyfillIntlNormalizer'
+	insinto '/usr/share/php/Symfony/Component/Polyfill-php80'
 	doins -r *
 
 	einstalldocs
