@@ -34,7 +34,6 @@ src_install() {
         php-ext-source-r3_addtoinifiles ";spx.http_ip_var" ""
         php-ext-source-r3_addtoinifiles ";spx.http_trusted_proxies" ""
         php-ext-source-r3_addtoinifiles "spx.http_ip_whitelist" "127.0.0.1,::1"
-        php-ext-source-r3_addtoinifiles ";spx.http_ui_assets_dir" "$PHPPREFIX/share/misc/php-spx/assets/web-ui"
         php-ext-source-r3_addtoinifiles ";spx.http_profiling_enabled" "NULL"
         php-ext-source-r3_addtoinifiles ";spx.http_profiling_auto_start" "NULL"
         php-ext-source-r3_addtoinifiles ";spx.http_profiling_builtins" "NULL"
@@ -44,6 +43,10 @@ src_install() {
         local slot
         for slot in $(php_get_slots); do
                 php_init_slot_env "${slot}"
+                for file in $(php_slot_ini_files "${slot}") ; do
+                        php-ext-source-r3_addtoinifile "${file}" ";spx.http_ui_assets_dir" "$PHPPREFIX/share/misc/php-spx/assets/web-ui"
+                done
+
                 insinto $PHPPREFIX/share/misc/php-spx/
                 doins -r assets
         done
