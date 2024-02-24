@@ -18,7 +18,7 @@ SRC_URI="https://github.com/BitOne/php-meminfo/archive/v${PV}.tar.gz -> ${P}.tgz
 
 if [ "$(ver_cut 4-5)" = "pre1" ];
 then
-	SRC_URI="https://github.com/BitOne/php-meminfo.git"
+	SRC_URI=""
 	EGIT_REPO_URI="https://github.com/BitOne/php-meminfo.git"
 	EGIT_COMMIT="0ab7f5a" #HEAD
 	inherit git-r3
