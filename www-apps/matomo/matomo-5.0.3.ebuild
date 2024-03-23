@@ -11,7 +11,6 @@ SRC_URI="https://github.com/matomo-org/matomo/releases/download/${PV}/${P}.tar.g
 
 LICENSE="GPL-3"
 KEYWORDS="~amd64 ~arm64"
-IUSE=""
 
 DEPEND="dev-php/composer"
 RDEPEND=">=dev-lang/php-7.4[gd,pdo]
