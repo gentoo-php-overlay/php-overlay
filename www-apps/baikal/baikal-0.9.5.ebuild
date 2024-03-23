@@ -11,10 +11,8 @@ SRC_URI="https://github.com/sabre-io/Baikal/releases/download/${PV}/${P}.zip"
 
 LICENSE="GPL-3"
 KEYWORDS="~amd64"
-IUSE=""
 
 BDEPEND="app-arch/unzip"
-RDEPEND=""
 
 PATCHES=( "${FILESDIR}/mysql-socket.patch" )
 
