@@ -1,0 +1,12 @@
+diff --color -ru composer-2.7.4.orig/src/Composer/Command/DiagnoseCommand.php composer-2.7.4/src/Composer/Command/DiagnoseCommand.php
+--- composer-2.7.4.orig/src/Composer/Command/DiagnoseCommand.php	2024-04-22 21:17:03.000000000 +0200
++++ composer-2.7.4/src/Composer/Command/DiagnoseCommand.php	2024-04-25 09:31:04.167503572 +0200
+@@ -490,7 +490,7 @@
+         $repoSet = new RepositorySet();
+         $installedJson = new JsonFile(__DIR__ . '/../../../vendor/composer/installed.json');
+         if (!$installedJson->exists()) {
+-            return '<warning>Could not find Composer\'s installed.json, this must be a non-standard Composer installation.</>';
++            return '<warning></><comment>Composer and dependencies are managed with Portage. Checking Composer\'s vulnerabilities from composer is not supported. Please make sure to install the latest version or report missing updates to https://github.com/gentoo-php-overlay/php-overlay</>';
+         }
+ 
+         $localRepo = new FilesystemRepository($installedJson);
