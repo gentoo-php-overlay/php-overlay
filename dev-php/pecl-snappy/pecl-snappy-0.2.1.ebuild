@@ -9,7 +9,7 @@ USE_PHP="php7-4 php8-0 php8-1 php8-2"
 
 inherit php-ext-pecl-r3
 
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64 ~x86 ~arm64"
 
 PHP_EXT_NAME="snappy"
 
