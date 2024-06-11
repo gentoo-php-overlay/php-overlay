@@ -1,0 +1,4 @@
+# Ferdinand Kuhl <f.kuhl@digital-competence.de> (2024-06-11)
+# serious composer security issues has been detected, masking all affected versions
+# see https://blog.packagist.com/composer-2-7-7/
+<dev-php/composer-2.7.7
