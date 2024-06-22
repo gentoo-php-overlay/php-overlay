@@ -1,0 +1,4 @@
+# Overriding the broad masks from gentoo base repository as we have already versions
+# which are good to use
+>=dev-php/composer-2.7.7
+>=dev-php/symfony-console-5
