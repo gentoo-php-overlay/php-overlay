@@ -15,6 +15,7 @@ LICENSE="MIT"
 SLOT="0"
 IUSE="+analyzer"
 SRC_URI="https://github.com/BitOne/php-meminfo/archive/v${PV}.tar.gz -> ${P}.tgz"
+HOMEPAGE="https://github.com/BitOne/php-meminfo/"
 
 RDEPEND="
         dev-lang/php:*[xml]
