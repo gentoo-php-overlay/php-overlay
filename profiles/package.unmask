@@ -2,3 +2,4 @@
 # which are good to use
 >=dev-php/composer-2.7.7
 >=dev-php/symfony-console-5
+>=dev-php/pecl-mcrypt-1.0.6
