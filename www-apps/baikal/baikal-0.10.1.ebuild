@@ -9,16 +9,14 @@ DESCRIPTION="Lightweight CalDAV+CardDAV server"
 HOMEPAGE="https://sabre.io/baikal/"
 SRC_URI="https://github.com/sabre-io/Baikal/releases/download/${PV}/${P}.zip"
 
+S="${WORKDIR}/${PN}"
+
 LICENSE="GPL-3"
 KEYWORDS="~amd64"
-IUSE=""
 
 BDEPEND="app-arch/unzip"
-RDEPEND=""
 
 PATCHES=( "${FILESDIR}/mysql-socket.patch" )
-
-S=${WORKDIR}/${PN}
 
 src_install() {
 
