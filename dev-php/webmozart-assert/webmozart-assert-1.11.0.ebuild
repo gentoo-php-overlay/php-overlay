@@ -1,34 +1,37 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 DESCRIPTION="Assertions to validate method input/output with nice error messages."
 HOMEPAGE="https://github.com/webmozarts/assert"
-SRC_URI="https://github.com/webmozarts/assert/archive/refs/tags/${PV}.tar.gz -> ${PN}-${PV}.tar.gz"
+SRC_URI="https://github.com/webmozarts/assert/archive/${PV}.tar.gz -> ${P}.tar.gz"
+
+S="${WORKDIR}/assert-${PV}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
 BDEPEND="dev-php/theseer-Autoload"
 
-RDEPEND="dev-lang/php:*[ctype]
-	dev-php/fedora-autoloader"
+RDEPEND="
+	>=dev-lang/php-7.4:*
+	dev-php/fedora-autoloader
+"
 
 src_prepare() {
 	default
 
 	phpab \
-		--quiet \
 		--output autoload.php \
 		--template fedora2 \
-		--basedir src \
-		src \
+		--basedir . \
+		. \
 		|| die
 }
 
 src_install() {
 	insinto "/usr/share/php/Webmozart/Assert"
-	doins -r autoload.php src/*
+	doins -r *.php src src/*
 }
