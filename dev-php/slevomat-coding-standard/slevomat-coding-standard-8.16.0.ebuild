@@ -1,11 +1,16 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
+MY_INSTALL_PATH="/usr/share/php/coding-standard"
+MY_CODESNIFFER_CONF="/usr/share/php/data/PHP/CodeSniffer/CodeSniffer.conf"
+
 DESCRIPTION="Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks."
 HOMEPAGE="https://github.com/slevomat/coding-standard"
 SRC_URI="https://github.com/slevomat/coding-standard/archive/refs/tags/${PV}.tar.gz -> ${PN}-${PV}.tar.gz"
+
+S="${WORKDIR}/coding-standard-${PV}"
 
 LICENSE="MIT"
 SLOT="0"
@@ -16,11 +21,8 @@ BDEPEND="dev-php/theseer-Autoload
 
 RDEPEND="dev-lang/php:*
 	dev-php/fedora-autoloader
-	dev-php/phpdoc-parser
+	dev-php/phpstan-phpdoc-parser
 	dev-php/PHP_CodeSniffer"
-
-MY_INSTALL_PATH="/usr/share/php/coding-standard"
-MY_CODESNIFFER_CONF="/usr/share/php/data/PHP/CodeSniffer/CodeSniffer.conf"
 
 src_prepare() {
 	default
@@ -32,13 +34,13 @@ src_prepare() {
 		--basedir . \
 		.\
 		|| die
-
+	VENDOR_DIR="${EPREFIX}/usr/share/php"
 	cat >> autoload.php <<EOF || die "failed to extend autoload.php"
 
 // Dependencies
 \Fedora\Autoloader\Dependencies::required([
-	'/usr/share/php/PHP/CodeSniffer/autoload.php',
-	'/usr/share/php/PHPStan/PhpDocParser/autoload.php',
+	"${VENDOR_DIR}/PHP/CodeSniffer/autoload.php",
+	"${VENDOR_DIR}/PHPStan/PhpDocParser/autoload.php",
 ]);
 EOF
 
@@ -54,10 +56,10 @@ pkg_postinst() {
 	# Create a new path list with current package
 	local INSTALLED_PATHS="${MY_INSTALL_PATH}"
 
-	if [ -f ${MY_CODESNIFFER_CONF} ]; then
+	if [ -f "${MY_CODESNIFFER_CONF}" ]; then
 
 		# Get existing paths into array
-		local EXISTING_PATHS=$(grep 'installed_paths' ${MY_CODESNIFFER_CONF} | awk '{print $3}' | sed 's/^.//' | sed 's/..$//')
+		local EXISTING_PATHS="$(grep 'installed_paths' ${MY_CODESNIFFER_CONF} | awk '{print $3}' | sed 's/^.//' | sed 's/..$//')"
 		local EXISTING_PATHS_ARRAY=($(echo ${EXISTING_PATHS} | tr "," "\n" ))
 
 		# Check if we have the expected value installed already
@@ -73,16 +75,16 @@ pkg_postinst() {
 	fi
 
 	# Install the new list of paths
-	phpcs --config-set installed_paths ${INSTALLED_PATHS} || die "Unable to update PHPCS configu"
+	phpcs --config-set installed_paths "${INSTALLED_PATHS}" || die "Unable to update PHPCS configu"
 
 }
 
 pkg_postrm() {
 
-	if [ -f ${MY_CODESNIFFER_CONF} ]; then
+	if [ -f "${MY_CODESNIFFER_CONF}" ]; then
 
 		# Get existing paths into array
-		local EXISTING_PATHS=$(grep 'installed_paths' ${MY_CODESNIFFER_CONF} | awk '{print $3}' | sed 's/^.//' | sed 's/..$//')
+		local EXISTING_PATHS="$(grep 'installed_paths' "${MY_CODESNIFFER_CONF}" | awk '{print $3}' | sed 's/^.//' | sed 's/..$//')"
 		local EXISTING_PATHS_ARRAY=($(echo ${EXISTING_PATHS} | tr "," "\n" ))
 
 		# Create a new empty path list
@@ -99,12 +101,12 @@ pkg_postrm() {
 			fi
 		done
 
-		if [ ! -z ${INSTALLED_PATHS} ]; then
+		if [ -n "${INSTALLED_PATHS}" ]; then
 			# Install the new list of paths
-			phpcs --config-set installed_paths ${INSTALLED_PATHS} || die "Unable to update PHPCS configu"
+			phpcs --config-set installed_paths "${INSTALLED_PATHS}" || die "Unable to update PHPCS configu"
 		else
 			# Delete config
-			rm ${MY_CODESNIFFER_CONF}
+			rm "${MY_CODESNIFFER_CONF}"
 		fi
 
 	fi

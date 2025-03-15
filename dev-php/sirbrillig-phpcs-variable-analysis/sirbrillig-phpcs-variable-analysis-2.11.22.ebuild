@@ -1,13 +1,18 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-DESCRIPTION="Coder is a library to review Drupal code."
-HOMEPAGE="https://github.com/pfrenssen/coder"
-SRC_URI="https://github.com/pfrenssen/coder/archive/refs/tags/${PV}.tar.gz -> ${PN}-${PV}.tar.gz"
+MY_INSTALL_PATH="/usr/share/php/phpcs-variable-analysis"
+MY_CODESNIFFER_CONF="/usr/share/php/data/PHP/CodeSniffer/CodeSniffer.conf"
 
-LICENSE="GPL-2"
+DESCRIPTION="A PHPCS sniff to detect problems with variables."
+HOMEPAGE="https://github.com/sirbrillig/phpcs-variable-analysis"
+SRC_URI="https://github.com/sirbrillig/phpcs-variable-analysis/archive/refs/tags/v${PV}.tar.gz -> ${PN}-${PV}.tar.gz"
+
+S="${WORKDIR}/phpcs-variable-analysis-${PV}"
+
+LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~arm64"
 
@@ -16,14 +21,7 @@ BDEPEND="dev-php/theseer-Autoload
 
 RDEPEND="dev-lang/php:*
 	dev-php/fedora-autoloader
-	dev-php/phpcs-variable-analysis
-	dev-php/coding-standard
-	dev-php/PHP_CodeSniffer
-	dev-php/symfony-yaml"
-
-S="${WORKDIR}/coder-${PV}"
-MY_INSTALL_PATH="/usr/share/php/drupal/coder"
-MY_CODESNIFFER_CONF="/usr/share/php/data/PHP/CodeSniffer/CodeSniffer.conf"
+	dev-php/PHP_CodeSniffer"
 
 src_prepare() {
 	default
@@ -32,24 +30,14 @@ src_prepare() {
 		--quiet \
 		--output autoload.php \
 		--template fedora2 \
-		--basedir coder_sniffer \
-		coder_sniffer \
+		--basedir . \
+		.\
 		|| die
-
-	cat >> autoload.php <<EOF || die "failed to extend autoload.php"
-
-// Dependencies
-\Fedora\Autoloader\Dependencies::required([
-	'/usr/share/php/PHP/CodeSniffer/autoload.php',
-	'/usr/share/php/PHPStan/PhpDocParser/autoload.php',
-	'/usr/share/php/Symfony/Component/Yaml/autoload.php',
-]);
-EOF
 }
 
 src_install() {
 	insinto "${MY_INSTALL_PATH}"
-	doins -r coder_sniffer/* autoload.php
+	doins -r .
 }
 
 pkg_postinst() {
@@ -57,10 +45,10 @@ pkg_postinst() {
 	# Create a new path list with current package
 	local INSTALLED_PATHS="${MY_INSTALL_PATH}"
 
-	if [ -f ${MY_CODESNIFFER_CONF} ]; then
+	if [ -f "${MY_CODESNIFFER_CONF}" ]; then
 
 		# Get existing paths into array
-		local EXISTING_PATHS=$(grep 'installed_paths' ${MY_CODESNIFFER_CONF} | awk '{print $3}' | sed 's/^.//' | sed 's/..$//')
+		local EXISTING_PATHS="$(grep 'installed_paths' ${MY_CODESNIFFER_CONF} | awk '{print $3}' | sed 's/^.//' | sed 's/..$//')"
 		local EXISTING_PATHS_ARRAY=($(echo ${EXISTING_PATHS} | tr "," "\n" ))
 
 		# Check if we have the expected value installed already
@@ -76,16 +64,16 @@ pkg_postinst() {
 	fi
 
 	# Install the new list of paths
-	phpcs --config-set installed_paths ${INSTALLED_PATHS} || die "Unable to update PHPCS configu"
+	phpcs --config-set installed_paths "${INSTALLED_PATHS}" || die "Unable to update PHPCS configu"
 
 }
 
 pkg_postrm() {
 
-	if [ -f ${MY_CODESNIFFER_CONF} ]; then
+	if [ -f "${MY_CODESNIFFER_CONF}" ]; then
 
 		# Get existing paths into array
-		local EXISTING_PATHS=$(grep 'installed_paths' ${MY_CODESNIFFER_CONF} | awk '{print $3}' | sed 's/^.//' | sed 's/..$//')
+		local EXISTING_PATHS="$(grep 'installed_paths' ${MY_CODESNIFFER_CONF} | awk '{print $3}' | sed 's/^.//' | sed 's/..$//')"
 		local EXISTING_PATHS_ARRAY=($(echo ${EXISTING_PATHS} | tr "," "\n" ))
 
 		# Create a new empty path list
@@ -102,12 +90,12 @@ pkg_postrm() {
 			fi
 		done
 
-		if [ ! -z ${INSTALLED_PATHS} ]; then
+		if [ -n "${INSTALLED_PATHS}" ]; then
 			# Install the new list of paths
 			phpcs --config-set installed_paths ${INSTALLED_PATHS} || die "Unable to update PHPCS configu"
 		else
 			# Delete config
-			rm ${MY_CODESNIFFER_CONF}
+			rm "${MY_CODESNIFFER_CONF}"
 		fi
 
 	fi

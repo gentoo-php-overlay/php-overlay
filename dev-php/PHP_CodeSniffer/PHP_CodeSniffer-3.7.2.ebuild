@@ -1,7 +1,9 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
+
+MY_PN="PHP/CodeSniffer"
 
 DESCRIPTION="PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards."
 HOMEPAGE="https://github.com/squizlabs/PHP_CodeSniffer"
@@ -14,12 +16,12 @@ KEYWORDS="~amd64 ~arm64"
 RDEPEND="dev-lang/php[tokenizer,xmlwriter,simplexml]
 	dev-php/symfony-yaml"
 
-MY_PN="PHP/CodeSniffer"
-
 src_prepare() {
 	default
 
 	sed -i "s~@data_dir@\(/PHP_CodeSniffer\)\?~${EPREFIX}/usr/share/php/data/${MY_PN}~" src/Config.php || die
+
+	VENDOR_DIR="${EPREFIX}/usr/share/php"
 
 	# Yaml support is expected by Drupal Coder
 	cat >> autoload.php <<EOF || die "failed to extend autoload.php"
@@ -28,7 +30,7 @@ require_once '/usr/share/php/Fedora/Autoloader/autoload.php';
 
 // Dependencies
 \Fedora\Autoloader\Dependencies::required([
-	'/usr/share/php/Symfony/Component/Yaml/autoload.php',
+	"${VENDOR_DIR}/Symfony/Component/Yaml/autoload.php",
 ]);
 EOF
 }
