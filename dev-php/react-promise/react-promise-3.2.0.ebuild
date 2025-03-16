@@ -13,11 +13,15 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
-BDEPEND="dev-php/theseer-Autoload"
+BDEPEND="
+	dev-php/theseer-Autoload
+	!dev-php/reactphp-promise
+"
 
 RDEPEND="
 	>=dev-lang/php-7.1:*
 	dev-php/fedora-autoloader
+	!dev-php/reactphp-promise
 "
 
 src_prepare() {
