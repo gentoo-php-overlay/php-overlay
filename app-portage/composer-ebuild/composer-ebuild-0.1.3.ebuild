@@ -18,6 +18,7 @@ KEYWORDS="~amd64 ~arm64"
 
 RDEPEND="
 	dev-php/composer
+	dev-python/packaging
 	dev-python/pygithub
 	dev-python/requests
 "
