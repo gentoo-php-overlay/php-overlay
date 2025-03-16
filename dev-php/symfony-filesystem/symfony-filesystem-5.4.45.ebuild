@@ -27,11 +27,13 @@ src_prepare() {
 	default
 
 	phpab \
+		--quiet \
 		--output autoload.php \
 		--template fedora2 \
 		--basedir . \
 		. \
 		|| die
+
 	VENDOR_DIR="${EPREFIX}/usr/share/php"
 	cat >> autoload.php <<EOF || die "failed to extend autoload.php"
 
@@ -47,5 +49,5 @@ EOF
 
 src_install() {
 	insinto "/usr/share/php/Symfony/Component/Filesystem"
-	doins -r *.php Exception
+	doins -r *.php Exception LICENSE
 }

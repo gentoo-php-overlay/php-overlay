@@ -1,0 +1,22 @@
+diff --git a/src/bin/pdepend b/src/bin/pdepend
+index e7bac25..5d03622 100755
+--- a/src/bin/pdepend
++++ b/src/bin/pdepend
+@@ -43,16 +43,11 @@
+
+ use PDepend\TextUI\Command;
+
+-// PEAR/svn workaround
+-if (strpos('@php_bin@', '@php_bin') === 0) {
+-    set_include_path('.' . PATH_SEPARATOR . dirname(__FILE__) . '/../main/php');
+-}
+-
+ // check for pdepend installed as composer package
+ if (file_exists(__DIR__ . '/../../../../autoload.php')) {
+     require_once __DIR__ . '/../../../../autoload.php';
+ } else {
+-    require_once __DIR__ . '/../../vendor/autoload.php';
++    require_once __DIR__ . '/../autoload.php';
+ }
+
+ // Allow as much memory as possible by default

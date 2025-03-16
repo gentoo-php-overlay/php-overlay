@@ -32,5 +32,5 @@ src_prepare() {
 
 src_install() {
 	insinto "/usr/share/php/Symfony/Component/DeprecationContracts"
-	doins -r *.php
+	doins -r *.php LICENSE
 }
