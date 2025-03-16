@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -21,6 +21,8 @@ RDEPEND="dev-lang/php:*[xml]
 src_prepare() {
 	default
 
+	sed -i "s/\/\.\.\/\.\.\/vendor/\/..\//g" src/bin/phpmd || die
+
 	phpab \
 		--quiet \
 		--output autoload.php \
@@ -29,25 +31,24 @@ src_prepare() {
 		src \
 		|| die
 
-	sed -i "s/\/\.\.\/\.\.\/vendor/\/..\//g" src/bin/phpmd || die
-
+	VENDOR_DIR="${EPREFIX}/usr/share/php"
 	cat >> autoload.php <<EOF || die "failed to extend autoload.php"
 
 // Dependencies
 \Fedora\Autoloader\Dependencies::required([
-	'/usr/share/php/Fedora/Autoloader/autoload.php',
-	'/usr/share/pdepend/autoload.php',
-	'/usr/share/php/Composer/XdebugHandler/autoload.php'
+	"${VENDOR_DIR}/Fedora/Autoloader/autoload.php",
+	"${VENDOR_DIR}/PDepend/autoload.php",
+	"${VENDOR_DIR}/Composer/XdebugHandler/autoload.php"
 ]);
 EOF
 
 }
 
 src_install() {
-	insinto "/usr/share/${PN}"
+	insinto "/usr/share/php/phpmd"
 	doins -r autoload.php src/main
 
-	exeinto "/usr/share/${PN}/bin"
-	doexe "src/bin/${PN}"
-	dosym "../share/${PN}/bin/${PN}" "/usr/bin/${PN}"
+	exeinto "/usr/share/php/phpmd/bin"
+	doexe "src/bin/phpmd"
+	dosym "/usr/share/php/phpmd/bin/phpmd" "/usr/bin/phpmd"
 }
