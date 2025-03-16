@@ -24,6 +24,7 @@ src_prepare() {
 	default
 
 	phpab \
+		--quiet \
 		--output autoload.php \
 		--template fedora2 \
 		--basedir . \
@@ -35,5 +36,5 @@ src_prepare() {
 
 src_install() {
 	insinto "/usr/share/php/Symfony/Polyfill/Ctype"
-	doins -r *.php
+	doins -r *.php LICENSE
 }
