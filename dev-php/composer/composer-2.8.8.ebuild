@@ -51,6 +51,7 @@ src_prepare() {
 	mkdir vendor || die
 
 	phpab \
+		--quiet \
 		--output vendor/autoload.php \
 		--template "${FILESDIR}"/autoload.php.tpl \
 		--basedir src \
@@ -66,6 +67,7 @@ src_prepare() {
 	"${VENDOR_DIR}/Composer/CaBundle/autoload.php",
 	"${VENDOR_DIR}/Composer/ClassMapGenerator/autoload.php",
 	"${VENDOR_DIR}/JsonSchema/autoload.php",
+	"${VENDOR_DIR}/MabeEnum/autoload.php",
 	"${VENDOR_DIR}/Composer/MetadataMinifier/autoload.php",
 	"${VENDOR_DIR}/Composer/Pcre/autoload.php",
 	"${VENDOR_DIR}/Psr/Container/autoload.php",
@@ -96,13 +98,10 @@ EOF
 }
 
 src_install() {
-	insinto "/usr/share/${PN}"
-
-	# Composer expects the LICENSE file to be there, and the
-	# easiest thing to do is to give it what it wants.
+	insinto "/usr/share/composer"
 	doins -r LICENSE res src vendor
 
-	exeinto "/usr/share/${PN}/bin"
-	doexe "bin/${PN}"
-	dosym "../share/${PN}/bin/${PN}" "/usr/bin/${PN}"
+	exeinto "/usr/share/composer/bin"
+	doexe "bin/composer"
+	dosym "../share/composer/bin/composer" "/usr/bin/composer"
 }
