@@ -26,7 +26,7 @@ S="${WORKDIR}/${PN}-${MY_PV}"
 
 LICENSE="Xdebug"
 SLOT="0"
-KEYWORDS="~amd64 ~hppa ~ppc ~ppc64 ~x86"
+KEYWORDS="~amd64 ~arm64 ~hppa ~ppc ~ppc64 ~x86"
 
 # Tests are known to fail
 RESTRICT="test"
