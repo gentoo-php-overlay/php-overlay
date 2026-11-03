@@ -2,3 +2,22 @@
 # serious composer security issues has been detected, masking all affected versions
 # see https://blog.packagist.com/composer-2-7-7/
 <dev-php/composer-2.7.7
+
+# Ferdinand Kuhl <ferdinand.kuhl@sincnovation.com> (2026-11-03)
+# Gentoo masked the composer dependency stack for removal on 2026-12-01
+# (profiles/package.mask, mjo@gentoo.org 2026-10-24). The bare atoms also
+# hit the maintained ebuilds of this overlay, since masks are inherited
+# from the master repository. Negating them here affects ::php-overlay only;
+# the ::gentoo ebuilds stay masked.
+# Drop these lines once Gentoo has removed the mask entries.
+-dev-php/ca-bundle
+-dev-php/fedora-autoloader
+-dev-php/metadata-minifier
+-dev-php/psr-log
+-dev-php/semver
+-dev-php/spdx-licenses
+-dev-php/symfony-filesystem
+-dev-php/symfony-finder
+-dev-php/symfony-process
+-dev-php/webmozart-assert
+-dev-php/xdebug-handler
